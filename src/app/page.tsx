@@ -1,13 +1,14 @@
 'use client';
 import Test from '@/code/features/test';
+import DefaultPageWrapper from '@/code/common/layouts/defpagewrapper';
 
 function Home() {
   return (
-    <div>
-      <div className="">
+    <DefaultPageWrapper>
+      <div>
         <Test />
       </div>
-    </div>
+    </DefaultPageWrapper>
   );
 }
 

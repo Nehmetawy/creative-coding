@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Creative Coding',
   description: '',
 };
+import AdminLayoutA from '@/code/common/layouts/admin.layout';
 
 export default function RootLayout({
   children,
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="">
         <Theme scaling="100%" className="min-h-0 p-0">
-          <main>{children}</main>
+          <main>
+            <AdminLayoutA>{children}</AdminLayoutA>
+          </main>
         </Theme>
       </body>
     </html>

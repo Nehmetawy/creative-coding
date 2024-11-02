@@ -5,3 +5,5 @@ on scroll, dandelion tenticles ( around half at random detaches, converts to bir
 https://editor.p5js.org/meij_who/sketches/TKb92Uyl7
 
 https://junkiyoshi.com/2024/11/
+
+https://natureofcode.com/

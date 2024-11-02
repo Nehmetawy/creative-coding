@@ -66,15 +66,20 @@ const config: Config = {
 
       backgroundImage: {
         'dot-pattern': "url('/dot.svg')",
+        noise: "url('/noise-light.png')",
       },
       backgroundSize: {
         square10: '5px',
+        sizeNoise: '200px',
       },
       textColor: {
         primary: `var(--gray-12)`,
       },
       backgroundColor: {
         primary: 'var(--background)',
+        pink: 'rgb(242, 94, 107)',
+        deepblue: 'rgb(36, 4, 170)',
+        paleblue: 'rgb(69, 138, 255)',
       },
       borderColor: {},
       animation: {
