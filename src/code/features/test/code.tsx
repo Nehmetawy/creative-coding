@@ -1,69 +1,98 @@
-import p5 from 'p5';
-
+import p5, { Vector } from 'p5';
 const CENTER_W = 400;
 const CENTER_H = 400;
 
-export class Manager {
-  p5: p5;
-  particles: Particles[] = [];
+export class Code {
+  time: number;
+  newTime: number;
+  p: p5;
+  particles: Particles[];
   constructor(p: p5) {
-    this.p5 = p;
-    this.init();
-  }
-
-  init() {
-    let i = 0;
-    while (i < 200) {
-      this.particles.push(new Particles(this.p5));
-      i++;
+    this.p = p;
+    this.time = this.p.millis();
+    this.newTime = this.p.millis();
+    this.particles = [];
+    for (let i = 0; i < 10; i++) {
+      this.particles.push(new Particles(this.p));
     }
   }
-
+  init() {}
   animate() {
-    const length = this.particles.length;
-    for (let i = 0; i < length; i++) {
-      const targetParticle = this.particles[i];
-      targetParticle.animate(this.p5);
+    this.newTime = this.p.millis();
+    const diff = this.newTime - this.time;
+    if (diff > 15) {
+      this.time = this.newTime;
+      for (let i = 0; i < 10; i++) {
+        this.particles[i].action();
+      }
     }
   }
 }
 
-class Particles {
-  pos: p5.Vector;
-  vel: p5.Vector;
-  origin: p5.Vector;
-  color: p5.Color;
+export class Gravity {
+  p: p5;
+  acceleration: p5.Vector;
   constructor(p: p5) {
-    this.pos = p.createVector(CENTER_W, CENTER_H);
-    const vy = p.random(-100, 100) / 50;
-    const vx = p.random(-100, 100) / 50;
-    this.vel = p.createVector(vx, vy);
-    this.origin = p.createVector(CENTER_W, CENTER_H);
-    this.color = p.color(
-      p.random(0, 255) % 256,
-      p.random(0, 255) % 256,
-      p.random(0, 255) % 256,
-    );
+    this.p = p;
+    this.acceleration = this.p.createVector(0, -10);
   }
+}
 
-  animate(p5: p5) {
-    // draw the particle
-    this.draw(p5);
-    // update the particle
-    this.update(p5);
-    // calculate distance and reset
-    this.reset();
-  }
-  reset() {
-    const distance = this.origin.dist(this.pos);
-    if (distance > 150) this.pos.set(this.origin);
-  }
+export class Particles {
+  p: p5;
+  position: p5.Vector;
+  velocity: p5.Vector;
+  acceleration: p5.Vector;
+  damping: number;
+  mass: number;
+  constructor(p: p5) {
+    this.p = p;
+    const posx = this.p.random(0, 1);
+    const posy = this.p.random(0, 1);
+    const velx = this.p.random(0, 1);
+    const vely = this.p.random(0, 1);
+    const finalx = this.p.map(posx, 0, 1, 0, CENTER_W);
+    const finaly = this.p.map(posx, 0, 1, 0, CENTER_H);
+    this.position = this.p.createVector(finalx, finaly);
 
-  draw(p5: p5) {
-    p5.stroke(this.color);
-    p5.point(this.pos);
+    this.velocity = this.p.createVector(velx, vely);
+    this.acceleration = this.p.createVector(0, 0.5);
+    this.damping = 1;
+    this.mass = this.p.floor(this.p.random(10, 30));
   }
-  update(p5: p5) {
-    this.pos.add(this.vel);
+  action() {
+    this.draw();
+    this.move();
+    this.collision();
+  }
+  move() {
+    //
+    this.position.add(this.velocity);
+    // apply  force
+    const f = this.acceleration.copy();
+    this.velocity.add(f.div(this.mass));
+  }
+  draw() {
+    this.p.circle(this.position.x, this.position.y, this.mass);
+  }
+  collision() {
+    if (this.position.y > CENTER_H * 2 || this.position.y < 0) {
+      this.velocity.mult(1, -1 * this.damping);
+      if (this.position.y > CENTER_H * 2) {
+        this.position.y = CENTER_W * 2;
+      }
+      if (this.position.y < 0) {
+        this.position.y = 0;
+      }
+    }
+    if (this.position.x > CENTER_W * 2 || this.position.x < 0) {
+      this.velocity.mult(-1 * this.damping, 1);
+      if (this.position.x > CENTER_W * 2) {
+        this.position.x = CENTER_W * 2;
+      }
+      if (this.position.x < 0) {
+        this.position.x = 0;
+      }
+    }
   }
 }

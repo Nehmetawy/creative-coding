@@ -7,7 +7,7 @@ function Home() {
   return (
     <DefaultPageWrapper>
       <div>
-        <GameEngine />
+        <Test />
       </div>
     </DefaultPageWrapper>
   );
