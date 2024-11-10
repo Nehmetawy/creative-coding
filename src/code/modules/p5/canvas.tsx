@@ -1,4 +1,3 @@
-'use client';
 import { useEffect, useRef } from 'react';
 import p5 from 'p5';
 
@@ -6,7 +5,7 @@ type props = {
   sketch: (p: p5) => void;
 };
 
-function EngineCanvas({ sketch }: props) {
+function P5Canvas({ sketch }: props) {
   const p5ContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,8 +19,13 @@ function EngineCanvas({ sketch }: props) {
         p5Instance.remove(); // Clean up the instance on component unmount
       }
     };
-  }, []);
-  return <div ref={p5ContainerRef}></div>;
-}
+  }, [sketch]);
 
-export default EngineCanvas;
+  return (
+    <div
+      ref={p5ContainerRef}
+      className="absolute bottom-0 left-0 right-0 top-0"
+    ></div>
+  );
+}
+export default P5Canvas;

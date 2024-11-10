@@ -1,15 +1,14 @@
 'use client';
-import Test from '@/code/features/test';
-import DefaultPageWrapper from '@/code/common/layouts/defpagewrapper';
-import GameEngine from '@/code/features/gameengine';
+import WebPageWrapper from '@/code/common/layouts/webpagewrapper';
+import PlayGround from '@/code/website/playground';
 
 function Home() {
   return (
-    <DefaultPageWrapper>
+    <WebPageWrapper>
       <div>
-        <Test />
+        <PlayGround />
       </div>
-    </DefaultPageWrapper>
+    </WebPageWrapper>
   );
 }
 

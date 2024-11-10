@@ -20,9 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="">
         <Theme scaling="100%" className="min-h-0 p-0">
-          <main>
-            <AdminLayoutA>{children}</AdminLayoutA>
-          </main>
+          <main>{children}</main>
         </Theme>
       </body>
     </html>
